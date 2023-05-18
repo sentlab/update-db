@@ -2,18 +2,18 @@
 package excel
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
 
+	"github.com/sentlab/update-db/sql/sql-query"
+
 	"github.com/xuri/excelize/v2"
-	//"tbconsulting.com/nessus-charts/sql"
 )
 
 // WriteData function writes the query values to the appropriate pages
-func WriteData(fileLocation string, cvssBySeverity sql.countbyOS, topTenVulnHosts []sql.TopTenVulnHosts, mostDangerousVulns []sql.MostDangerousVulns, vulnByType sql.VulnByType, countCVSSYear []sql.CountCVSSYear, rawHeaders []string, rawRecords [][]string) {
+func WriteData(fileLocation string, CvssBySeverity sql-query.CvssBySeverity , topTenVulnHosts []sql.TopTenVulnHosts, mostDangerousVulns []sql.MostDangerousVulns, vulnByType sql.VulnByType, countCVSSYear []sql.CountCVSSYear, rawHeaders []string, rawRecords [][]string) {
 	// Open the Excel Doc at the provided location
 	file, err := excelize.OpenFile(fileLocation)
 	// Handle any errors opening the DB
@@ -21,7 +21,7 @@ func WriteData(fileLocation string, cvssBySeverity sql.countbyOS, topTenVulnHost
 		fmt.Printf("Error opening Excel File. Error: %v\n", err)
 		os.Exit(2)
 	}
-	writeCVSSBySev(file, "CVSS By Severity", cvssBySeverity)
+	writeCVSSBySev(file, "CVSS By Severity", CvssBySeverity)
 	writeTopTens(file, "Top Vulnerable Hosts", topTenVulnHosts)
 	writeMostDang(file, "Most Common Vulnerabilities", mostDangerousVulns)
 	writeVulnByType(file, "Vulnerabilities By Type", vulnByType)

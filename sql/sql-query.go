@@ -1,3 +1,4 @@
+// Package sql performs SQL operations
 package sql
 
 import (

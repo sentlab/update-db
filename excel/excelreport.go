@@ -7,13 +7,13 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/sentlab/update-db/sql/sql-query"
+	"github.com/sentlab/update-db/sql"
 
 	"github.com/xuri/excelize/v2"
 )
 
-// WriteData function writes the query values to the appropriate pages
-func WriteData(fileLocation string, CvssBySeverity sql-query.CvssBySeverity , topTenVulnHosts []sql.TopTenVulnHosts, mostDangerousVulns []sql.MostDangerousVulns, vulnByType sql.VulnByType, countCVSSYear []sql.CountCVSSYear, rawHeaders []string, rawRecords [][]string) {
+// Open the Excel Doc at the provided location
+func WriteData(fileLocation string, cvssBySeverity sql.VulnBySeverity, topTenVulnHosts []sql.TopTenVulnHosts, mostDangerousVulns []sql.MostDangerousVulns, vulnByType sql.VulnByType, countCVSSYear []sql.CountCVSSYear) {
 	// Open the Excel Doc at the provided location
 	file, err := excelize.OpenFile(fileLocation)
 	// Handle any errors opening the DB
@@ -21,13 +21,12 @@ func WriteData(fileLocation string, CvssBySeverity sql-query.CvssBySeverity , to
 		fmt.Printf("Error opening Excel File. Error: %v\n", err)
 		os.Exit(2)
 	}
-	writeCVSSBySev(file, "CVSS By Severity", CvssBySeverity)
+	writeCVSSBySev(file, "CVSS By Severity", cvssBySeverity)
 	writeTopTens(file, "Top Vulnerable Hosts", topTenVulnHosts)
 	writeMostDang(file, "Most Common Vulnerabilities", mostDangerousVulns)
 	writeVulnByType(file, "Vulnerabilities By Type", vulnByType)
 	writeByYear(file, "Vulnerabilities By Year", countCVSSYear)
-	writeRow(file, "Scan Data", 1, rawHeaders)
-	writeMultipleRow(file, "Scan Data", rawRecords)
+
 	newFile := ""
 	if filepath.Dir(fileLocation) == "." {
 		newFile = "Populated_" + filepath.Base(fileLocation)

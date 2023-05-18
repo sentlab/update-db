@@ -1,19 +1,22 @@
-package main
+// Package sql performs SQL operations
+package sql
 
 import (
 	"database/sql"
 	"fmt"
-	"log"
+
+	//"log"
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func main() {
+// Fix Sql null values in the database
+func FixSql(dbPath string) error {
 	// Open the database connection
-	db, err := sql.Open("sqlite3", "./vulns.db")
+	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("unable to connect to database: %w", err)
 	}
 	defer db.Close()
 
@@ -21,7 +24,7 @@ func main() {
 	columnsQuery := "PRAGMA table_info(`PopularBank`)"
 	rows, err := db.Query(columnsQuery)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("unable to execute query: %w", err)
 	}
 	defer rows.Close()
 
@@ -36,7 +39,7 @@ func main() {
 
 		err := rows.Scan(&cid, &name, &dataType, &notNull, &defaultValue, &primaryKey)
 		if err != nil {
-			log.Fatal(err)
+			return fmt.Errorf("unable to scan row: %w", err)
 		}
 
 		columnNames = append(columnNames, name)
@@ -51,8 +54,9 @@ func main() {
 
 	_, err = db.Exec(updateQuery)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("unable to execute update query: %w", err)
 	}
 
 	fmt.Println("Update operation completed successfully.")
+	return nil
 }

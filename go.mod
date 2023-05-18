@@ -3,6 +3,7 @@ module github.com/sentlab/update-db
 go 1.20
 
 require (
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/xuri/excelize/v2 v2.7.1
 )

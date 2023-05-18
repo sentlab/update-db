@@ -86,21 +86,17 @@ func InsertDB(dbLocation string, tableName string, headers []string, values [][]
 }
 
 // RunQueries runs all queries on the sql database and returns a map of results
-func RunQueries(dbLocation string, tableName string) (VulnBySeverity, []TopTenVulnHosts, []MostDangerousVulns, VulnByType, []CountCVSSYear) {
-	// Open the SQLite DB at the provided location
-	database, err := sql.Open("sqlite", dbLocation)
-	// Handle any errors opening the DB
-	if err != nil {
-		fmt.Printf("Error opening SQLite DB File. Error: %v\n", err)
-		os.Exit(2)
-	}
-	tableName = "'" + tableName + "'"
-	vulnBySeverity := vulnBySeverity(database, tableName)
-	topTenVulnHosts := topTenVulnHosts(database, tableName)
-	mostDangerousVulns := mostDangerousVulns(database, tableName)
-	vulnByType := vulnByType(database, tableName)
-	countCVSSYear := countCVSSYear(database, tableName)
+func RunQueries(db *sql.DB, tableName string) (VulnBySeverity, []TopTenVulnHosts, []MostDangerousVulns, VulnByType, []CountCVSSYear) {
+	// tableName = "'" + tableName + "'"
+	vulnBySeverity := vulnBySeverity(db, tableName)
+	topTenVulnHosts := topTenVulnHosts(db, tableName)
+	mostDangerousVulns := mostDangerousVulns(db, tableName)
+	vulnByType := vulnByType(db, tableName)
+	countCVSSYear := countCVSSYear(db, tableName)
+
+	// you might have something like this for your return statement
 	return vulnBySeverity, topTenVulnHosts, mostDangerousVulns, vulnByType, countCVSSYear
+
 }
 
 func structureHeaders(headers []string) string {

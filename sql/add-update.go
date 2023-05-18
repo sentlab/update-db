@@ -1,4 +1,5 @@
-package main
+// Package sql performs SQL operations
+package sql
 
 import (
 	"database/sql"
@@ -17,7 +18,7 @@ const (
 
 var csvHeaders []string
 
-func main() {
+func sqlupdate() {
 	const dbPath = "vulns.db"
 	// Check the command-line arguments
 	if len(os.Args) < 2 {

@@ -1,4 +1,5 @@
-package main
+// Package sql performs SQL operations
+package sql
 
 import (
 	"database/sql"
@@ -9,7 +10,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func main() {
+func updatesql() {
 	// Check if column name argument is provided
 	if len(os.Args) < 2 {
 		log.Fatal("Please provide a column name as an argument.")

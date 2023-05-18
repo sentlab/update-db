@@ -14,7 +14,7 @@ func main() {
 	//csvLocation := flag.String("csv", "scan.csv", "Provide the filepath to the CSV output from Nessus.")
 	//dbLocation := flag.String("db", "vulns.db", "Provide the filepath to open the existing SQLite database, or where you would like the new one to be saved.")
 	//tableName := flag.String("table", dateString, "Provide the name of the table that you would like to use.")
-	//excelLocation := flag.String("excel", "Chart_Template.xlsx", "Provide the filepath to the Excel Chart Template.")
+	excelLocation := flag.String("excel", "Chart_Template.xlsx", "Provide the filepath to the Excel Chart Template.")
 	flag.Parse()
 
 	//headers, records := csv.ProcessCSV(*csvLocation)
